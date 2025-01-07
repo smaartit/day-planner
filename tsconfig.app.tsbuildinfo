@@ -1,15 +1,1 @@
-{
-  "root": [
-    "./src/app.tsx",
-    "./src/main.tsx",
-    "./src/vite-env.d.ts",
-    "./src/components/adddatepickereventmodal.tsx",
-    "./src/components/addeventmodal.tsx",
-    "./src/components/addtodomodal.tsx",
-    "./src/components/eventschedular.tsx",
-    "./src/components/eventdetails.tsx",
-    "./src/components/eventdetailsmodal.tsx"
-  ],
-  "errors": true,
-  "version": "5.6.3"
-}
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/adddatepickereventmodal.test.tsx","./src/components/adddatepickereventmodal.tsx","./src/components/addeventmodal.tsx","./src/components/addtodomodal.tsx","./src/components/eventdetails.test.tsx","./src/components/eventdetails.tsx","./src/components/eventdetailsmodal.tsx","./src/components/eventschedular.tsx"],"version":"5.7.2"}
