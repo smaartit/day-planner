@@ -4,4 +4,7 @@ export default {
   transform: {
     "^.+\\.tsx?$": "ts-jest", // use ts-jest for transforming TypeScript
   },
+  moduleNameMapper: {
+    "\\.css$": "identity-obj-proxy", // Mocks CSS imports using identity-obj-proxy
+  },
 };
