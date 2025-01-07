@@ -34,6 +34,8 @@ const EventDetailsModal = ({
       <DialogContent>
         <DialogContentText>
           <Typography
+            component="span"
+            variant="body1"
             sx={{ fontSize: 14, marginTop: 3 }}
             color="text.secondary"
             gutterBottom
