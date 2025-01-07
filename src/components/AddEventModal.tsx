@@ -40,7 +40,7 @@ const AddEventModal = ({
     }));
   };
 
-  const handleTodoChange = (e: React.SyntheticEvent, value: ITodo | null) => {
+  const handleTodoChange = (_e: React.SyntheticEvent, value: ITodo | null) => {
     setEventFormData((prevState) => ({
       ...prevState,
       todoId: value?._id,
