@@ -5,6 +5,6 @@ export default {
     "^.+\\.tsx?$": "ts-jest", // use ts-jest for transforming TypeScript
   },
   moduleNameMapper: {
-    "\\.css$": "identity-obj-proxy", // Mocks CSS imports using identity-obj-proxy
+    "^react-big-calendar/lib/css/.*\\.css$": "identity-obj-proxy", // Mocks CSS imports using identity-obj-proxy
   },
 };
