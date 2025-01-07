@@ -133,7 +133,7 @@ export const AddTodoModal = ({
           variant="contained"
           color="success"
         >
-          Add
+          Save
         </Button>
       </DialogActions>
     </Dialog>

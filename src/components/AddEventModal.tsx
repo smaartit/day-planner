@@ -86,7 +86,7 @@ const AddEventModal = ({
           color="success"
           onClick={onAddEvent}
         >
-          Add
+          Save
         </Button>
       </DialogActions>
     </Dialog>

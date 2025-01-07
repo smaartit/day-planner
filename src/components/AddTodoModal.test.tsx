@@ -40,7 +40,7 @@ describe("AddTodoModal", () => {
     fireEvent.change(titleInput, {
       target: { value: "New Todo" },
     });
-    fireEvent.click(screen.getByText("Add"));
+    fireEvent.click(screen.getByText("Save"));
     expect(mockSetTodos).toHaveBeenCalledTimes(1);
   });
 });
