@@ -1,29 +1,29 @@
 import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent, screen } from "@testing-library/react";
-import { AddTodoModal } from "./AddTodoModal"; // Path to your component
+import { AddTaskModal } from "./AddTaskModal";
 
 const mockHandleClose = jest.fn();
-const mockSetTodos = jest.fn();
+const mockSetTasks = jest.fn();
 
 const defaultProps = {
   open: true,
   handleClose: mockHandleClose,
-  todos: [
-    { _id: "1", title: "Todo 1", color: "#ff0000" },
-    { _id: "2", title: "Todo 2", color: "#00ff00" },
+  tasks: [
+    { _id: "1", title: "Task 1", color: "#ff0000" },
+    { _id: "2", title: "Task 2", color: "#00ff00" },
   ],
-  setTodos: mockSetTodos,
+  setTasks: mockSetTasks,
 };
 
-describe("AddTodoModal", () => {
+describe("AddTaskModal", () => {
   beforeEach(() => {
-    render(<AddTodoModal {...defaultProps} />);
+    render(<AddTaskModal {...defaultProps} />);
   });
 
   test("should render modal components correctly", () => {
-    expect(screen.getByText("Add todo")).toBeInTheDocument();
+    expect(screen.getByText("Add a task")).toBeInTheDocument();
     expect(
-      screen.getByText("Create todos to add to your Calendar.")
+      screen.getByText("Create tasks to add to your Calendar.")
     ).toBeInTheDocument();
     expect(
       screen.getByLabelText("Title", { exact: false })
@@ -35,12 +35,12 @@ describe("AddTodoModal", () => {
     expect(mockHandleClose).toHaveBeenCalledTimes(1);
   });
 
-  test("should call setTodos function when Add button is clicked", () => {
+  test("should call setTasks function when Add button is clicked", () => {
     const titleInput = screen.getByLabelText("Title", { exact: false });
     fireEvent.change(titleInput, {
-      target: { value: "New Todo" },
+      target: { value: "New Task" },
     });
     fireEvent.click(screen.getByText("Save"));
-    expect(mockSetTodos).toHaveBeenCalledTimes(1);
+    expect(mockSetTasks).toHaveBeenCalledTimes(1);
   });
 });

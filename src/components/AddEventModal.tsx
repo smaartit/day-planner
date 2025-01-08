@@ -10,7 +10,7 @@ import {
   Autocomplete,
   Box,
 } from "@mui/material";
-import { EventFormData, ITodo } from "./EventSchedular";
+import { EventFormData, ITask } from "./EventSchedular";
 
 interface IProps {
   open: boolean;
@@ -18,7 +18,7 @@ interface IProps {
   eventFormData: EventFormData;
   setEventFormData: Dispatch<SetStateAction<EventFormData>>;
   onAddEvent: (e: MouseEvent<HTMLButtonElement>) => void;
-  todos: ITodo[];
+  tasks: ITask[];
 }
 
 const AddEventModal = ({
@@ -27,7 +27,7 @@ const AddEventModal = ({
   eventFormData,
   setEventFormData,
   onAddEvent,
-  todos,
+  tasks,
 }: IProps) => {
   const { description } = eventFormData;
 
@@ -40,10 +40,10 @@ const AddEventModal = ({
     }));
   };
 
-  const handleTodoChange = (_e: React.SyntheticEvent, value: ITodo | null) => {
+  const handleTaskChange = (_e: React.SyntheticEvent, value: ITask | null) => {
     setEventFormData((prevState) => ({
       ...prevState,
-      todoId: value?._id,
+      taskId: value?._id,
     }));
   };
 
@@ -67,13 +67,13 @@ const AddEventModal = ({
             onChange={onChange}
           />
           <Autocomplete
-            onChange={handleTodoChange}
+            onChange={handleTaskChange}
             disablePortal
             id="combo-box-demo"
-            options={todos}
+            options={tasks}
             sx={{ marginTop: 4 }}
             getOptionLabel={(option) => option.title}
-            renderInput={(params) => <TextField {...params} label="Todo" />}
+            renderInput={(params) => <TextField {...params} label="Task" />}
           />
         </Box>
       </DialogContent>

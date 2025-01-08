@@ -11,13 +11,13 @@ const defaultProps = {
   handleClose: mockHandleClose,
   eventFormData: {
     description: "",
-    todoId: undefined,
+    taskId: undefined,
   },
   setEventFormData: mockSetEventFormData,
   onAddEvent: mockOnAddEvent,
-  todos: [
-    { _id: "1", title: "Todo 1" },
-    { _id: "2", title: "Todo 2" },
+  tasks: [
+    { _id: "1", title: "Task 1" },
+    { _id: "2", title: "Task 2" },
   ],
 };
 
@@ -29,7 +29,7 @@ describe("AddEventModal", () => {
   test("should render modal components correctly", () => {
     expect(screen.getByText("Add event")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
-    expect(screen.getByLabelText("Todo")).toBeInTheDocument();
+    expect(screen.getByLabelText("Task")).toBeInTheDocument();
   });
 
   test("should call onClose function when Cancel button is clicked", () => {
@@ -45,10 +45,10 @@ describe("AddEventModal", () => {
     expect(mockSetEventFormData).toHaveBeenCalledTimes(1);
   });
 
-  test("should update form data on todo change", () => {
-    const todoInput = screen.getByLabelText("Todo");
-    fireEvent.change(todoInput, {
-      target: { value: "Todo 1" },
+  test("should update form data on task change", () => {
+    const taskInput = screen.getByLabelText("Task");
+    fireEvent.change(taskInput, {
+      target: { value: "Task 1" },
     });
     expect(mockSetEventFormData).toHaveBeenCalledTimes(1);
   });

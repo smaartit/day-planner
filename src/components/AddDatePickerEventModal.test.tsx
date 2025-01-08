@@ -14,13 +14,13 @@ const defaultProps = {
     start: undefined,
     end: undefined,
     allDay: false,
-    todoId: undefined,
+    taskId: undefined,
   },
   setDatePickerEventFormData: mockSetDatePickerEventFormData,
   onAddEvent: mockOnAddEvent,
-  todos: [
-    { _id: "1", title: "Todo 1" },
-    { _id: "2", title: "Todo 2" },
+  tasks: [
+    { _id: "1", title: "Task 1" },
+    { _id: "2", title: "Task 2" },
   ],
 };
 
@@ -36,7 +36,7 @@ describe("AddDatePickerEventModal", () => {
     expect(screen.getByLabelText("Start date")).toBeInTheDocument();
     expect(screen.getByLabelText("End date")).toBeInTheDocument();
     expect(screen.getByText("All day?")).toBeInTheDocument();
-    expect(screen.getByLabelText("Todo")).toBeInTheDocument();
+    expect(screen.getByLabelText("Task")).toBeInTheDocument();
   });
 
   test("should call onClose function when Cancel button is clicked", async () => {

@@ -17,28 +17,28 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { HexColorPicker } from "react-colorful";
-import { ITodo, generateId } from "./EventSchedular";
+import { ITask, generateId } from "./EventSchedular";
 
 interface IProps {
   open: boolean;
   handleClose: Dispatch<SetStateAction<void>>;
-  todos: ITodo[];
-  setTodos: Dispatch<SetStateAction<ITodo[]>>;
+  tasks: ITask[];
+  setTasks: Dispatch<SetStateAction<ITask[]>>;
 }
 
-export const AddTodoModal = ({
+export const AddTaskModal = ({
   open,
   handleClose,
-  todos,
-  setTodos,
+  tasks,
+  setTasks,
 }: IProps) => {
   const [color, setColor] = useState("#b32aa9");
   const [title, setTitle] = useState("");
 
-  const onAddTodo = () => {
+  const onAddTask = () => {
     setTitle("");
-    setTodos([
-      ...todos,
+    setTasks([
+      ...tasks,
       {
         _id: generateId(),
         color,
@@ -47,17 +47,17 @@ export const AddTodoModal = ({
     ]);
   };
 
-  const onDeletetodo = (_id: string) =>
-    setTodos(todos.filter((todo) => todo._id !== _id));
+  const onDeletetask = (_id: string) =>
+    setTasks(tasks.filter((task) => task._id !== _id));
 
   const onClose = () => handleClose();
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add todo</DialogTitle>
+      <DialogTitle>Add a task</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Create todos to add to your Calendar.
+          Create tasks to add to your Calendar.
         </DialogContentText>
         <Box>
           <TextField
@@ -86,12 +86,12 @@ export const AddTodoModal = ({
           </Box>
           <Box>
             <List sx={{ marginTop: 3 }}>
-              {todos.map((todo) => (
+              {tasks.map((task) => (
                 <ListItem
-                  key={todo.title}
+                  key={task.title}
                   secondaryAction={
                     <IconButton
-                      onClick={() => onDeletetodo(todo._id)}
+                      onClick={() => onDeletetask(task._id)}
                       color="error"
                       edge="end"
                     >
@@ -107,9 +107,9 @@ export const AddTodoModal = ({
                       marginRight: 1,
                     }}
                     className="value"
-                    style={{ backgroundColor: todo.color }}
+                    style={{ backgroundColor: task.color }}
                   ></Box>
-                  <ListItemText primary={todo.title} />
+                  <ListItemText primary={task.title} />
                 </ListItem>
               ))}
             </List>
@@ -127,7 +127,7 @@ export const AddTodoModal = ({
           Cancel
         </Button>
         <Button
-          onClick={() => onAddTodo()}
+          onClick={() => onAddTask()}
           disabled={title === "" || color === ""}
           sx={{ marginRight: 2 }}
           variant="contained"

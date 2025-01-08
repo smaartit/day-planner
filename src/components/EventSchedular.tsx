@@ -23,7 +23,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import EventDetails from "./EventDetails";
 import AddEventModal from "./AddEventModal";
 import EventDetailsModal from "./EventDetailsModal";
-import { AddTodoModal } from "./AddTodoModal";
+import { AddTaskModal } from "./AddTaskModal";
 import AddDatePickerEventModal from "./AddDatePickerEventModal";
 
 const locales = {
@@ -38,7 +38,7 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-export interface ITodo {
+export interface ITask {
   _id: string;
   title: string;
   color?: string;
@@ -47,17 +47,17 @@ export interface ITodo {
 export interface IEventDetails extends Event {
   _id: string;
   description: string;
-  todoId?: string;
+  taskId?: string;
 }
 
 export interface EventFormData {
   description: string;
-  todoId?: string;
+  taskId?: string;
 }
 
 export interface DatePickerEventFormData {
   description: string;
-  todoId?: string;
+  taskId?: string;
   allDay: boolean;
   start?: Date;
   end?: Date;
@@ -68,12 +68,12 @@ export const generateId = () =>
 
 const initialEventFormState: EventFormData = {
   description: "",
-  todoId: undefined,
+  taskId: undefined,
 };
 
 const initialDatePickerEventFormData: DatePickerEventFormData = {
   description: "",
-  todoId: undefined,
+  taskId: undefined,
   allDay: false,
   start: undefined,
   end: undefined,
@@ -82,7 +82,7 @@ const initialDatePickerEventFormData: DatePickerEventFormData = {
 const EventSchedular = () => {
   const [openSlot, setOpenSlot] = useState(false);
   const [openDatepickerModal, setOpenDatepickerModal] = useState(false);
-  const [openTodoModal, setOpenTodoModal] = useState(false);
+  const [openTaskModal, setOpenTaskModal] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<
     Event | IEventDetails | null
   >(null);
@@ -90,7 +90,7 @@ const EventSchedular = () => {
   const [eventDetailsModal, setEventDetailsModal] = useState(false);
 
   const [events, setEvents] = useState<IEventDetails[]>([]);
-  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [tasks, setTasks] = useState<ITask[]>([]);
 
   const [eventFormData, setEventFormData] = useState<EventFormData>(
     initialEventFormState
@@ -184,7 +184,7 @@ const EventSchedular = () => {
         <Card>
           <CardHeader
             title="Calendar"
-            subheader="Create Events and Todos and manage them easily"
+            subheader="Create Events and Tasks and manage them easily"
           />
           <Divider />
           <CardContent>
@@ -202,11 +202,11 @@ const EventSchedular = () => {
                   Add event
                 </Button>
                 <Button
-                  onClick={() => setOpenTodoModal(true)}
+                  onClick={() => setOpenTaskModal(true)}
                   size="small"
                   variant="contained"
                 >
-                  Create todo
+                  Create task
                 </Button>
               </ButtonGroup>
             </Box>
@@ -217,7 +217,7 @@ const EventSchedular = () => {
               eventFormData={eventFormData}
               setEventFormData={setEventFormData}
               onAddEvent={onAddEvent}
-              todos={todos}
+              tasks={tasks}
             />
             <AddDatePickerEventModal
               open={openDatepickerModal}
@@ -225,7 +225,7 @@ const EventSchedular = () => {
               datePickerEventFormData={datePickerEventFormData}
               setDatePickerEventFormData={setDatePickerEventFormData}
               onAddEvent={onAddEventFromDatePicker}
-              todos={todos}
+              tasks={tasks}
             />
             <EventDetailsModal
               open={eventDetailsModal}
@@ -233,11 +233,11 @@ const EventSchedular = () => {
               onDeleteEvent={onDeleteEvent}
               currentEvent={currentEvent as IEventDetails}
             />
-            <AddTodoModal
-              open={openTodoModal}
-              handleClose={() => setOpenTodoModal(false)}
-              todos={todos}
-              setTodos={setTodos}
+            <AddTaskModal
+              open={openTaskModal}
+              handleClose={() => setOpenTaskModal(false)}
+              tasks={tasks}
+              setTasks={setTasks}
             />
             <Calendar
               localizer={localizer}
@@ -250,11 +250,11 @@ const EventSchedular = () => {
               endAccessor="end"
               defaultView="week"
               eventPropGetter={(event) => {
-                const hasTodo = todos.find((todo) => todo._id === event.todoId);
+                const hasTask = tasks.find((task) => task._id === event.taskId);
                 return {
                   style: {
-                    backgroundColor: hasTodo ? hasTodo.color : "#b64fc8",
-                    borderColor: hasTodo ? hasTodo.color : "#b64fc8",
+                    backgroundColor: hasTask ? hasTask.color : "#b64fc8",
+                    borderColor: hasTask ? hasTask.color : "#b64fc8",
                   },
                 };
               }}

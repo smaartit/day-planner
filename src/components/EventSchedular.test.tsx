@@ -10,10 +10,10 @@ describe("EventSchedular", () => {
   test("should render calendar components correctly", () => {
     expect(screen.getByText("Calendar")).toBeInTheDocument();
     expect(
-      screen.getByText("Create Events and Todos and manage them easily")
+      screen.getByText("Create Events and Tasks and manage them easily")
     ).toBeInTheDocument();
     expect(screen.getByText("Add event")).toBeInTheDocument();
-    expect(screen.getByText("Create todo")).toBeInTheDocument();
+    expect(screen.getByText("Create task")).toBeInTheDocument();
   });
 
   test("should open AddEventModal when Add event button is clicked", () => {
@@ -23,10 +23,10 @@ describe("EventSchedular", () => {
     ).toBeInTheDocument();
   });
 
-  test("should open AddTodoModal when Create todo button is clicked", () => {
-    fireEvent.click(screen.getByText("Create todo", { exact: false }));
+  test("should open AddTaskModal when Create task button is clicked", () => {
+    fireEvent.click(screen.getByText("Create task", { exact: false }));
     expect(
-      screen.getByText("Create todos to add to your Calendar.")
+      screen.getByText("Create tasks to add to your Calendar.")
     ).toBeInTheDocument();
   });
 

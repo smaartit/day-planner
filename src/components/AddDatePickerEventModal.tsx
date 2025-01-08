@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-import { DatePickerEventFormData, ITodo } from "./EventSchedular";
+import { DatePickerEventFormData, ITask } from "./EventSchedular";
 
 interface IProps {
   open: boolean;
@@ -27,7 +27,7 @@ interface IProps {
   datePickerEventFormData: DatePickerEventFormData;
   setDatePickerEventFormData: Dispatch<SetStateAction<DatePickerEventFormData>>;
   onAddEvent: (e: MouseEvent<HTMLButtonElement>) => void;
-  todos: ITodo[];
+  tasks: ITask[];
 }
 
 const AddDatePickerEventModal = ({
@@ -36,7 +36,7 @@ const AddDatePickerEventModal = ({
   datePickerEventFormData,
   setDatePickerEventFormData,
   onAddEvent,
-  todos,
+  tasks,
 }: IProps) => {
   const { description, start, end, allDay } = datePickerEventFormData;
 
@@ -58,10 +58,10 @@ const AddDatePickerEventModal = ({
     }));
   };
 
-  const handleTodoChange = (_e: React.SyntheticEvent, value: ITodo | null) => {
+  const handleTaskChange = (_e: React.SyntheticEvent, value: ITask | null) => {
     setDatePickerEventFormData((prevState) => ({
       ...prevState,
-      todoId: value?._id,
+      taskId: value?._id,
     }));
   };
 
@@ -145,13 +145,13 @@ const AddDatePickerEventModal = ({
             />
           </LocalizationProvider>
           <Autocomplete
-            onChange={handleTodoChange}
+            onChange={handleTaskChange}
             disablePortal
             id="combo-box-demo"
-            options={todos}
+            options={tasks}
             sx={{ marginTop: 4 }}
             getOptionLabel={(option) => option.title}
-            renderInput={(params) => <TextField {...params} label="Todo" />}
+            renderInput={(params) => <TextField {...params} label="Task" />}
           />
         </Box>
       </DialogContent>
