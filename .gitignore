@@ -22,7 +22,9 @@ dist-ssr
 vite*
 
 # Editor directories and files
-tsconfig*
+tsconfig.app.tsbuildinfo
+tsconfig.node.tsbuildinfo
+tsconfig.tsbuildinfo
 .vscode/*
 !.vscode/extensions.json
 .idea
