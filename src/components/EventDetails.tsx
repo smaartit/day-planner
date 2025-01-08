@@ -8,7 +8,9 @@ interface IProps {
 const EventDetails = ({ event }: IProps) => {
   return (
     <>
-      <Typography>{event.description}</Typography>
+      <Typography style={{ lineHeight: "unset" }}>
+        {event.description}
+      </Typography>
     </>
   );
 };
