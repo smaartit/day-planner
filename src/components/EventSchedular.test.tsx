@@ -13,20 +13,12 @@ describe("EventSchedular", () => {
       screen.getByText("Create Events and Tasks and manage them easily")
     ).toBeInTheDocument();
     expect(screen.getByText("Add event")).toBeInTheDocument();
-    expect(screen.getByText("Create task")).toBeInTheDocument();
   });
 
   test("should open AddEventModal when Add event button is clicked", () => {
     fireEvent.click(screen.getByText("Add event", { exact: false }));
     expect(
       screen.getByText("To add a event, please fill in the information below.")
-    ).toBeInTheDocument();
-  });
-
-  test("should open AddTaskModal when Create task button is clicked", () => {
-    fireEvent.click(screen.getByText("Create task", { exact: false }));
-    expect(
-      screen.getByText("Create tasks to add to your Calendar.")
     ).toBeInTheDocument();
   });
 

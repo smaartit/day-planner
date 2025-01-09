@@ -23,7 +23,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import EventDetails from "./EventDetails";
 import AddEventModal from "./AddEventModal";
 import EventDetailsModal from "./EventDetailsModal";
-import { AddTaskModal } from "./AddTaskModal";
 import AddDatePickerEventModal from "./AddDatePickerEventModal";
 
 const locales = {
@@ -38,21 +37,15 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-export interface ITask {
-  _id: string;
-  title: string;
-  color?: string;
-}
-
 export interface IEventDetails extends Event {
   _id: string;
   description: string;
-  taskId?: string;
+  color?: string;
 }
 
 export interface EventFormData {
   description: string;
-  taskId?: string;
+  color?: string;
 }
 
 export interface DatePickerEventFormData {
@@ -61,6 +54,7 @@ export interface DatePickerEventFormData {
   allDay: boolean;
   start?: Date;
   end?: Date;
+  color?: string;
 }
 
 export const generateId = () =>
@@ -68,7 +62,7 @@ export const generateId = () =>
 
 const initialEventFormState: EventFormData = {
   description: "",
-  taskId: undefined,
+  color: "#b64fc8",
 };
 
 const initialDatePickerEventFormData: DatePickerEventFormData = {
@@ -77,12 +71,12 @@ const initialDatePickerEventFormData: DatePickerEventFormData = {
   allDay: false,
   start: undefined,
   end: undefined,
+  color: "#b64fc8",
 };
 
 const EventSchedular = () => {
   const [openSlot, setOpenSlot] = useState(false);
   const [openDatepickerModal, setOpenDatepickerModal] = useState(false);
-  const [openTaskModal, setOpenTaskModal] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<
     Event | IEventDetails | null
   >(null);
@@ -90,7 +84,6 @@ const EventSchedular = () => {
   const [eventDetailsModal, setEventDetailsModal] = useState(false);
 
   const [events, setEvents] = useState<IEventDetails[]>([]);
-  const [tasks, setTasks] = useState<ITask[]>([]);
 
   const [eventFormData, setEventFormData] = useState<EventFormData>(
     initialEventFormState
@@ -127,6 +120,7 @@ const EventSchedular = () => {
       _id: generateId(),
       start: currentEvent?.start,
       end: currentEvent?.end,
+      color: eventFormData?.color,
     };
 
     const newEvents = [...events, data];
@@ -201,13 +195,6 @@ const EventSchedular = () => {
                 >
                   Add event
                 </Button>
-                <Button
-                  onClick={() => setOpenTaskModal(true)}
-                  size="small"
-                  variant="contained"
-                >
-                  Create task
-                </Button>
               </ButtonGroup>
             </Box>
             <Divider style={{ margin: 10 }} />
@@ -217,7 +204,6 @@ const EventSchedular = () => {
               eventFormData={eventFormData}
               setEventFormData={setEventFormData}
               onAddEvent={onAddEvent}
-              tasks={tasks}
             />
             <AddDatePickerEventModal
               open={openDatepickerModal}
@@ -225,19 +211,12 @@ const EventSchedular = () => {
               datePickerEventFormData={datePickerEventFormData}
               setDatePickerEventFormData={setDatePickerEventFormData}
               onAddEvent={onAddEventFromDatePicker}
-              tasks={tasks}
             />
             <EventDetailsModal
               open={eventDetailsModal}
               handleClose={() => setEventDetailsModal(false)}
               onDeleteEvent={onDeleteEvent}
               currentEvent={currentEvent as IEventDetails}
-            />
-            <AddTaskModal
-              open={openTaskModal}
-              handleClose={() => setOpenTaskModal(false)}
-              tasks={tasks}
-              setTasks={setTasks}
             />
             <Calendar
               localizer={localizer}
@@ -249,12 +228,14 @@ const EventSchedular = () => {
               components={{ event: EventDetails }}
               endAccessor="end"
               defaultView="week"
-              eventPropGetter={(event) => {
-                const hasTask = tasks.find((task) => task._id === event.taskId);
+              eventPropGetter={(ev) => {
+                const hasColor = events.find(
+                  (event) => event.color === ev.color
+                );
                 return {
                   style: {
-                    backgroundColor: hasTask ? hasTask.color : "#b64fc8",
-                    borderColor: hasTask ? hasTask.color : "#b64fc8",
+                    backgroundColor: hasColor ? hasColor.color : "#b64fc8",
+                    borderColor: hasColor ? hasColor.color : "#b64fc8",
                   },
                 };
               }}

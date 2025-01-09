@@ -1,4 +1,11 @@
-import { ChangeEvent, Dispatch, MouseEvent, SetStateAction } from "react";
+import {
+  useState,
+  ChangeEvent,
+  Dispatch,
+  MouseEvent,
+  SetStateAction,
+  useEffect,
+} from "react";
 import {
   TextField,
   Dialog,
@@ -7,10 +14,11 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
-  Autocomplete,
   Box,
 } from "@mui/material";
-import { EventFormData, ITask } from "./EventSchedular";
+
+import { HexColorPicker } from "react-colorful";
+import { EventFormData } from "./EventSchedular";
 
 interface IProps {
   open: boolean;
@@ -18,7 +26,6 @@ interface IProps {
   eventFormData: EventFormData;
   setEventFormData: Dispatch<SetStateAction<EventFormData>>;
   onAddEvent: (e: MouseEvent<HTMLButtonElement>) => void;
-  tasks: ITask[];
 }
 
 const AddEventModal = ({
@@ -27,9 +34,16 @@ const AddEventModal = ({
   eventFormData,
   setEventFormData,
   onAddEvent,
-  tasks,
 }: IProps) => {
+  const [color, setColor] = useState("#b32aa9");
   const { description } = eventFormData;
+
+  useEffect(() => {
+    setEventFormData((prevState) => ({
+      ...prevState,
+      color: color,
+    }));
+  }, [color]);
 
   const onClose = () => handleClose();
 
@@ -37,13 +51,7 @@ const AddEventModal = ({
     setEventFormData((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
-    }));
-  };
-
-  const handleTaskChange = (_e: React.SyntheticEvent, value: ITask | null) => {
-    setEventFormData((prevState) => ({
-      ...prevState,
-      taskId: value?._id,
+      color: color,
     }));
   };
 
@@ -54,7 +62,7 @@ const AddEventModal = ({
         <DialogContentText>
           To add a event, please fill in the information below.
         </DialogContentText>
-        <Box component="form">
+        <Box component="form" sx={{ display: "flex", flexDirection: "column" }}>
           <TextField
             name="description"
             value={description}
@@ -66,15 +74,23 @@ const AddEventModal = ({
             variant="outlined"
             onChange={onChange}
           />
-          <Autocomplete
-            onChange={handleTaskChange}
-            disablePortal
-            id="combo-box-demo"
-            options={tasks}
-            sx={{ marginTop: 4 }}
-            getOptionLabel={(option) => option.title}
-            renderInput={(params) => <TextField {...params} label="Task" />}
-          />
+
+          <Box
+            mb={2}
+            mt={5}
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignContent: "flex-start",
+            }}
+          >
+            <HexColorPicker color={color} onChange={setColor} />
+            <Box
+              sx={{ display: "flex", height: 80, width: 80, borderRadius: 1 }}
+              className="value"
+              style={{ backgroundColor: color }}
+            ></Box>
+          </Box>
         </Box>
       </DialogContent>
       <DialogActions>

@@ -1,4 +1,5 @@
 import React, {
+  useState,
   Dispatch,
   MouseEvent,
   SetStateAction,
@@ -12,14 +13,15 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
-  Autocomplete,
   Box,
   Checkbox,
   Typography,
 } from "@mui/material";
+
+import { HexColorPicker } from "react-colorful";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-import { DatePickerEventFormData, ITask } from "./EventSchedular";
+import { DatePickerEventFormData } from "./EventSchedular";
 
 interface IProps {
   open: boolean;
@@ -27,7 +29,6 @@ interface IProps {
   datePickerEventFormData: DatePickerEventFormData;
   setDatePickerEventFormData: Dispatch<SetStateAction<DatePickerEventFormData>>;
   onAddEvent: (e: MouseEvent<HTMLButtonElement>) => void;
-  tasks: ITask[];
 }
 
 const AddDatePickerEventModal = ({
@@ -36,8 +37,8 @@ const AddDatePickerEventModal = ({
   datePickerEventFormData,
   setDatePickerEventFormData,
   onAddEvent,
-  tasks,
 }: IProps) => {
+  const [color, setColor] = useState("#b32aa9");
   const { description, start, end, allDay } = datePickerEventFormData;
 
   const onClose = () => {
@@ -55,13 +56,6 @@ const AddDatePickerEventModal = ({
     setDatePickerEventFormData((prevState) => ({
       ...prevState,
       allDay: event.target.checked,
-    }));
-  };
-
-  const handleTaskChange = (_e: React.SyntheticEvent, value: ITask | null) => {
-    setDatePickerEventFormData((prevState) => ({
-      ...prevState,
-      taskId: value?._id,
     }));
   };
 
@@ -84,7 +78,7 @@ const AddDatePickerEventModal = ({
         <DialogContentText>
           To add a event, please fill in the information below.
         </DialogContentText>
-        <Box component="form">
+        <Box component="form" sx={{ display: "flex", flexDirection: "column" }}>
           <TextField
             name="description"
             value={description}
@@ -97,7 +91,7 @@ const AddDatePickerEventModal = ({
             onChange={onChange}
           />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Box mb={2} mt={5}>
+            <Box mb={2} mt={3}>
               <DateTimePicker
                 label="Start date"
                 value={start}
@@ -144,15 +138,19 @@ const AddDatePickerEventModal = ({
               }}
             />
           </LocalizationProvider>
-          <Autocomplete
-            onChange={handleTaskChange}
-            disablePortal
-            id="combo-box-demo"
-            options={tasks}
-            sx={{ marginTop: 4 }}
-            getOptionLabel={(option) => option.title}
-            renderInput={(params) => <TextField {...params} label="Task" />}
-          />
+
+          <Box
+            mb={2}
+            mt={5}
+            sx={{ display: "flex", justifyContent: "space-around" }}
+          >
+            <HexColorPicker color={color} onChange={setColor} />
+            <Box
+              sx={{ height: 80, width: 80, borderRadius: 1 }}
+              className="value"
+              style={{ backgroundColor: color }}
+            ></Box>
+          </Box>
         </Box>
       </DialogContent>
       <DialogActions>

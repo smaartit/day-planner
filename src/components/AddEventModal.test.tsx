@@ -11,14 +11,10 @@ const defaultProps = {
   handleClose: mockHandleClose,
   eventFormData: {
     description: "",
-    taskId: undefined,
+    color: "",
   },
   setEventFormData: mockSetEventFormData,
   onAddEvent: mockOnAddEvent,
-  tasks: [
-    { _id: "1", title: "Task 1" },
-    { _id: "2", title: "Task 2" },
-  ],
 };
 
 describe("AddEventModal", () => {
@@ -29,7 +25,6 @@ describe("AddEventModal", () => {
   test("should render modal components correctly", () => {
     expect(screen.getByText("Add event")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
-    expect(screen.getByLabelText("Task")).toBeInTheDocument();
   });
 
   test("should call onClose function when Cancel button is clicked", () => {
@@ -42,14 +37,6 @@ describe("AddEventModal", () => {
     fireEvent.change(descriptionInput, {
       target: { value: "Updated Description" },
     });
-    expect(mockSetEventFormData).toHaveBeenCalledTimes(1);
-  });
-
-  test("should update form data on task change", () => {
-    const taskInput = screen.getByLabelText("Task");
-    fireEvent.change(taskInput, {
-      target: { value: "Task 1" },
-    });
-    expect(mockSetEventFormData).toHaveBeenCalledTimes(1);
+    expect(mockSetEventFormData).toHaveBeenCalledTimes(4);
   });
 });
