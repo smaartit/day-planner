@@ -1,29 +1,29 @@
 import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent, screen } from "@testing-library/react";
-import AddEventModal from "./AddEventModal"; // Path to your component
+import AddTaskModal from "./AddTaskModal"; // Path to your component
 
-const mockOnAddEvent = jest.fn();
+const mockOnAddTask = jest.fn();
 const mockHandleClose = jest.fn();
-const mockSetEventFormData = jest.fn();
+const mockSetTaskFormData = jest.fn();
 
 const defaultProps = {
   open: true,
   handleClose: mockHandleClose,
-  eventFormData: {
+  taskFormData: {
     description: "",
     color: "",
   },
-  setEventFormData: mockSetEventFormData,
-  onAddEvent: mockOnAddEvent,
+  setTaskFormData: mockSetTaskFormData,
+  onAddTask: mockOnAddTask,
 };
 
-describe("AddEventModal", () => {
+describe("AddTaskModal", () => {
   beforeEach(() => {
-    render(<AddEventModal {...defaultProps} />);
+    render(<AddTaskModal {...defaultProps} />);
   });
 
   test("should render modal components correctly", () => {
-    expect(screen.getByText("Add event")).toBeInTheDocument();
+    expect(screen.getByText("Add task")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
   });
 
@@ -37,6 +37,6 @@ describe("AddEventModal", () => {
     fireEvent.change(descriptionInput, {
       target: { value: "Updated Description" },
     });
-    expect(mockSetEventFormData).toHaveBeenCalledTimes(4);
+    expect(mockSetTaskFormData).toHaveBeenCalledTimes(4);
   });
 });

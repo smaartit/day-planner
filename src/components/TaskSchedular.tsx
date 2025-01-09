@@ -20,10 +20,10 @@ import { enUS } from "date-fns/locale/en-US";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-import EventDetails from "./EventDetails";
-import AddEventModal from "./AddEventModal";
-import EventDetailsModal from "./EventDetailsModal";
-import AddDatePickerEventModal from "./AddDatePickerEventModal";
+import TaskDetails from "./TaskDetails";
+import AddTaskModal from "./AddTaskModal";
+import TaskDetailsModal from "./TaskDetailsModal";
+import AddDatePickerTaskModal from "./AddDatePickerTaskModal";
 
 const locales = {
   "en-US": enUS,
@@ -37,18 +37,18 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-export interface IEventDetails extends Event {
+export interface ITaskDetails extends Event {
   _id: string;
   description: string;
   color?: string;
 }
 
-export interface EventFormData {
+export interface TaskFormData {
   description: string;
   color?: string;
 }
 
-export interface DatePickerEventFormData {
+export interface DatePickerTaskFormData {
   description: string;
   taskId?: string;
   allDay: boolean;
@@ -60,12 +60,12 @@ export interface DatePickerEventFormData {
 export const generateId = () =>
   (Math.floor(Math.random() * 10000) + 1).toString();
 
-const initialEventFormState: EventFormData = {
+const initialTaskFormState: TaskFormData = {
   description: "",
   color: "#b64fc8",
 };
 
-const initialDatePickerEventFormData: DatePickerEventFormData = {
+const initialDatePickerTaskFormData: DatePickerTaskFormData = {
   description: "",
   taskId: undefined,
   allDay: false,
@@ -74,62 +74,60 @@ const initialDatePickerEventFormData: DatePickerEventFormData = {
   color: "#b64fc8",
 };
 
-const EventSchedular = () => {
+const TaskSchedular = () => {
   const [openSlot, setOpenSlot] = useState(false);
   const [openDatepickerModal, setOpenDatepickerModal] = useState(false);
-  const [currentEvent, setCurrentEvent] = useState<
-    Event | IEventDetails | null
-  >(null);
-
-  const [eventDetailsModal, setEventDetailsModal] = useState(false);
-
-  const [events, setEvents] = useState<IEventDetails[]>([]);
-
-  const [eventFormData, setEventFormData] = useState<EventFormData>(
-    initialEventFormState
+  const [currentTask, setCurrentTask] = useState<Event | ITaskDetails | null>(
+    null
   );
 
-  const [datePickerEventFormData, setDatePickerEventFormData] =
-    useState<DatePickerEventFormData>(initialDatePickerEventFormData);
+  const [taskDetailsModal, setTaskDetailsModal] = useState(false);
 
-  const handleSelectSlot = (event: Event) => {
+  const [tasks, setTasks] = useState<ITaskDetails[]>([]);
+
+  const [taskFormData, setTaskFormData] =
+    useState<TaskFormData>(initialTaskFormState);
+
+  const [datePickerTaskFormData, setDatePickerTaskFormData] =
+    useState<DatePickerTaskFormData>(initialDatePickerTaskFormData);
+
+  const handleSelectSlot = (task: Event) => {
     setOpenSlot(true);
-    setCurrentEvent(event);
+    setCurrentTask(task);
   };
 
-  const handleSelectEvent = (event: IEventDetails) => {
-    setCurrentEvent(event);
-    setEventDetailsModal(true);
+  const handleSelectTask = (task: ITaskDetails) => {
+    setCurrentTask(task);
+    setTaskDetailsModal(true);
   };
 
   const handleClose = () => {
-    setEventFormData(initialEventFormState);
+    setTaskFormData(initialTaskFormState);
     setOpenSlot(false);
   };
 
   const handleDatePickerClose = () => {
-    setDatePickerEventFormData(initialDatePickerEventFormData);
+    setDatePickerTaskFormData(initialDatePickerTaskFormData);
     setOpenDatepickerModal(false);
   };
 
-  const onAddEvent = (e: MouseEvent<HTMLButtonElement>) => {
+  const onAddTask = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const data: IEventDetails = {
-      ...eventFormData,
+    const data: ITaskDetails = {
+      ...taskFormData,
       _id: generateId(),
-      start: currentEvent?.start,
-      end: currentEvent?.end,
-      color: eventFormData?.color,
+      start: currentTask?.start,
+      end: currentTask?.end,
     };
 
-    const newEvents = [...events, data];
+    const newTasks = [...tasks, data];
 
-    setEvents(newEvents);
+    setTasks(newTasks);
     handleClose();
   };
 
-  const onAddEventFromDatePicker = (e: MouseEvent<HTMLButtonElement>) => {
+  const onAddTaskFromDatePicker = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const addHours = (date: Date | undefined, hours: number) => {
@@ -142,26 +140,26 @@ const EventSchedular = () => {
       return date;
     };
 
-    const data: IEventDetails = {
-      ...datePickerEventFormData,
+    const data: ITaskDetails = {
+      ...datePickerTaskFormData,
       _id: generateId(),
-      start: setMinToZero(datePickerEventFormData.start),
-      end: datePickerEventFormData.allDay
-        ? addHours(datePickerEventFormData.start, 12)
-        : setMinToZero(datePickerEventFormData.end),
+      start: setMinToZero(datePickerTaskFormData.start),
+      end: datePickerTaskFormData.allDay
+        ? addHours(datePickerTaskFormData.start, 12)
+        : setMinToZero(datePickerTaskFormData.end),
     };
 
-    const newEvents = [...events, data];
+    const newTasks = [...tasks, data];
 
-    setEvents(newEvents);
-    setDatePickerEventFormData(initialDatePickerEventFormData);
+    setTasks(newTasks);
+    setDatePickerTaskFormData(initialDatePickerTaskFormData);
   };
 
-  const onDeleteEvent = () => {
-    setEvents(() =>
-      [...events].filter((e) => e._id !== (currentEvent as IEventDetails)._id!)
+  const onDeleteTask = () => {
+    setTasks(() =>
+      [...tasks].filter((e) => e._id !== (currentTask as ITaskDetails)._id!)
     );
-    setEventDetailsModal(false);
+    setTaskDetailsModal(false);
   };
 
   return (
@@ -178,7 +176,7 @@ const EventSchedular = () => {
         <Card>
           <CardHeader
             title="Calendar"
-            subheader="Create Events and Tasks and manage them easily"
+            subheader="Create Tasks and manage them easily"
           />
           <Divider />
           <CardContent>
@@ -193,45 +191,43 @@ const EventSchedular = () => {
                   size="small"
                   variant="contained"
                 >
-                  Add event
+                  Add Task
                 </Button>
               </ButtonGroup>
             </Box>
             <Divider style={{ margin: 10 }} />
-            <AddEventModal
+            <AddTaskModal
               open={openSlot}
               handleClose={handleClose}
-              eventFormData={eventFormData}
-              setEventFormData={setEventFormData}
-              onAddEvent={onAddEvent}
+              taskFormData={taskFormData}
+              setTaskFormData={setTaskFormData}
+              onAddTask={onAddTask}
             />
-            <AddDatePickerEventModal
+            <AddDatePickerTaskModal
               open={openDatepickerModal}
               handleClose={handleDatePickerClose}
-              datePickerEventFormData={datePickerEventFormData}
-              setDatePickerEventFormData={setDatePickerEventFormData}
-              onAddEvent={onAddEventFromDatePicker}
+              datePickerTaskFormData={datePickerTaskFormData}
+              setDatePickerTaskFormData={setDatePickerTaskFormData}
+              onAddTask={onAddTaskFromDatePicker}
             />
-            <EventDetailsModal
-              open={eventDetailsModal}
-              handleClose={() => setEventDetailsModal(false)}
-              onDeleteEvent={onDeleteEvent}
-              currentEvent={currentEvent as IEventDetails}
+            <TaskDetailsModal
+              open={taskDetailsModal}
+              handleClose={() => setTaskDetailsModal(false)}
+              onDeleteTask={onDeleteTask}
+              currentTask={currentTask as ITaskDetails}
             />
             <Calendar
               localizer={localizer}
-              events={events}
-              onSelectEvent={handleSelectEvent}
+              events={tasks}
+              onSelectEvent={handleSelectTask}
               onSelectSlot={handleSelectSlot}
               selectable
               startAccessor="start"
-              components={{ event: EventDetails }}
+              components={{ event: TaskDetails }}
               endAccessor="end"
               defaultView="week"
               eventPropGetter={(ev) => {
-                const hasColor = events.find(
-                  (event) => event.color === ev.color
-                );
+                const hasColor = tasks.find((task) => task.color === ev.color);
                 return {
                   style: {
                     backgroundColor: hasColor ? hasColor.color : "#b64fc8",
@@ -250,4 +246,4 @@ const EventSchedular = () => {
   );
 };
 
-export default EventSchedular;
+export default TaskSchedular;

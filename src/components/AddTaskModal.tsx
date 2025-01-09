@@ -18,28 +18,28 @@ import {
 } from "@mui/material";
 
 import { HexColorPicker } from "react-colorful";
-import { EventFormData } from "./EventSchedular";
+import { TaskFormData } from "./TaskSchedular";
 
 interface IProps {
   open: boolean;
   handleClose: Dispatch<SetStateAction<void>>;
-  eventFormData: EventFormData;
-  setEventFormData: Dispatch<SetStateAction<EventFormData>>;
-  onAddEvent: (e: MouseEvent<HTMLButtonElement>) => void;
+  taskFormData: TaskFormData;
+  setTaskFormData: Dispatch<SetStateAction<TaskFormData>>;
+  onAddTask: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const AddEventModal = ({
+const AddTaskModal = ({
   open,
   handleClose,
-  eventFormData,
-  setEventFormData,
-  onAddEvent,
+  taskFormData,
+  setTaskFormData,
+  onAddTask,
 }: IProps) => {
   const [color, setColor] = useState("#b32aa9");
-  const { description } = eventFormData;
+  const { description } = taskFormData;
 
   useEffect(() => {
-    setEventFormData((prevState) => ({
+    setTaskFormData((prevState) => ({
       ...prevState,
       color: color,
     }));
@@ -48,7 +48,7 @@ const AddEventModal = ({
   const onClose = () => handleClose();
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEventFormData((prevState) => ({
+    setTaskFormData((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
       color: color,
@@ -57,10 +57,10 @@ const AddEventModal = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add event</DialogTitle>
+      <DialogTitle>Add task</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          To add a event, please fill in the information below.
+          To add a task, please fill in the information below.
         </DialogContentText>
         <Box component="form" sx={{ display: "flex", flexDirection: "column" }}>
           <TextField
@@ -100,7 +100,7 @@ const AddEventModal = ({
         <Button
           disabled={description === ""}
           color="success"
-          onClick={onAddEvent}
+          onClick={onAddTask}
         >
           Save
         </Button>
@@ -109,4 +109,4 @@ const AddEventModal = ({
   );
 };
 
-export default AddEventModal;
+export default AddTaskModal;

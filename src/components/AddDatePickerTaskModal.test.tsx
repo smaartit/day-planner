@@ -1,33 +1,33 @@
 import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent, screen } from "@testing-library/react";
-import AddDatePickerEventModal from "./AddDatePickerEventModal"; // Path to your component
+import AddDatePickerTaskModal from "./AddDatePickerTaskModal"; // Path to your component
 
-const mockOnAddEvent = jest.fn();
+const mockOnAddTask = jest.fn();
 const mockHandleClose = jest.fn();
-const mockSetDatePickerEventFormData = jest.fn();
+const mockSetDatePickerTaskFormData = jest.fn();
 
 const defaultProps = {
   open: true,
   handleClose: mockHandleClose,
-  datePickerEventFormData: {
+  datePickerTaskFormData: {
     description: "",
     start: undefined,
     end: undefined,
     allDay: false,
     taskId: undefined,
   },
-  setDatePickerEventFormData: mockSetDatePickerEventFormData,
-  onAddEvent: mockOnAddEvent,
+  setDatePickerTaskFormData: mockSetDatePickerTaskFormData,
+  onAddTask: mockOnAddTask,
 };
 
-describe("AddDatePickerEventModal", () => {
+describe("AddDatePickerTaskModal", () => {
   beforeEach(() => {
-    render(<AddDatePickerEventModal {...defaultProps} />);
+    render(<AddDatePickerTaskModal {...defaultProps} />);
   });
 
   test("should render modal components correctly", () => {
     // Check if the modal components are rendered
-    expect(screen.getByText("Add event")).toBeInTheDocument();
+    expect(screen.getByText("Add task")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
     expect(screen.getByLabelText("Start date")).toBeInTheDocument();
     expect(screen.getByLabelText("End date")).toBeInTheDocument();
@@ -68,6 +68,6 @@ describe("AddDatePickerEventModal", () => {
     });
 
     // Check if setDatePickerEventFormData was called with the correct updated description
-    expect(mockSetDatePickerEventFormData).toHaveBeenCalledTimes(1);
+    expect(mockSetDatePickerTaskFormData).toHaveBeenCalledTimes(1);
   });
 });

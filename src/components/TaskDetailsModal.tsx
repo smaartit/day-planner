@@ -9,20 +9,20 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import { IEventDetails } from "./EventSchedular";
+import { ITaskDetails } from "./TaskSchedular";
 
 interface IProps {
   open: boolean;
   handleClose: Dispatch<SetStateAction<void>>;
-  onDeleteEvent: (e: MouseEvent<HTMLButtonElement>) => void;
-  currentEvent: IEventDetails | null;
+  onDeleteTask: (e: MouseEvent<HTMLButtonElement>) => void;
+  currentTask: ITaskDetails | null;
 }
 
-const EventDetailsModal = ({
+const TaskDetailsModal = ({
   open,
   handleClose,
-  onDeleteEvent,
-  currentEvent,
+  onDeleteTask,
+  currentTask,
 }: IProps) => {
   const onClose = () => {
     handleClose();
@@ -30,7 +30,7 @@ const EventDetailsModal = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Event Info</DialogTitle>
+      <DialogTitle>Task Detail</DialogTitle>
       <DialogContent>
         <DialogContentText>
           <Typography
@@ -40,7 +40,7 @@ const EventDetailsModal = ({
             color="text.secondary"
             gutterBottom
           >
-            {currentEvent?.description}
+            {currentTask?.description}
           </Typography>
         </DialogContentText>
         <Box component="form"></Box>
@@ -49,12 +49,12 @@ const EventDetailsModal = ({
         <Button color="error" onClick={onClose}>
           Cancel
         </Button>
-        <Button color="info" onClick={onDeleteEvent}>
-          Delete Event
+        <Button color="info" onClick={onDeleteTask}>
+          Delete Task
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default EventDetailsModal;
+export default TaskDetailsModal;

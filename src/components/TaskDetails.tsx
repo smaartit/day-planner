@@ -1,11 +1,11 @@
 import { Typography } from "@mui/material";
-import { IEventDetails } from "./EventSchedular";
+import { ITaskDetails } from "./TaskSchedular";
 
 interface IProps {
-  event: IEventDetails;
+  event: ITaskDetails;
 }
 
-const EventDetails = ({ event }: IProps) => {
+const TaskDetails = ({ event }: IProps) => {
   return (
     <>
       <Typography style={{ lineHeight: "unset" }}>
@@ -15,4 +15,4 @@ const EventDetails = ({ event }: IProps) => {
   );
 };
 
-export default EventDetails;
+export default TaskDetails;

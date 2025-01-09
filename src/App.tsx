@@ -1,4 +1,4 @@
-import EventSchedular from "./components/EventSchedular";
+import EventSchedular from "./components/TaskSchedular";
 
 function App() {
   return (

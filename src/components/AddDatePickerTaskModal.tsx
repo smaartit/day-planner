@@ -21,39 +21,39 @@ import {
 import { HexColorPicker } from "react-colorful";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-import { DatePickerEventFormData } from "./EventSchedular";
+import { DatePickerTaskFormData } from "./TaskSchedular";
 
 interface IProps {
   open: boolean;
   handleClose: Dispatch<SetStateAction<void>>;
-  datePickerEventFormData: DatePickerEventFormData;
-  setDatePickerEventFormData: Dispatch<SetStateAction<DatePickerEventFormData>>;
-  onAddEvent: (e: MouseEvent<HTMLButtonElement>) => void;
+  datePickerTaskFormData: DatePickerTaskFormData;
+  setDatePickerTaskFormData: Dispatch<SetStateAction<DatePickerTaskFormData>>;
+  onAddTask: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const AddDatePickerEventModal = ({
+const AddDatePickerTaskModal = ({
   open,
   handleClose,
-  datePickerEventFormData,
-  setDatePickerEventFormData,
-  onAddEvent,
+  datePickerTaskFormData,
+  setDatePickerTaskFormData,
+  onAddTask,
 }: IProps) => {
   const [color, setColor] = useState("#b32aa9");
-  const { description, start, end, allDay } = datePickerEventFormData;
+  const { description, start, end, allDay } = datePickerTaskFormData;
 
   const onClose = () => {
     handleClose();
   };
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDatePickerEventFormData((prevState) => ({
+    setDatePickerTaskFormData((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
     }));
   };
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDatePickerEventFormData((prevState) => ({
+    setDatePickerTaskFormData((prevState) => ({
       ...prevState,
       allDay: event.target.checked,
     }));
@@ -73,10 +73,10 @@ const AddDatePickerEventModal = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add event</DialogTitle>
+      <DialogTitle>Add task</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          To add a event, please fill in the information below.
+          To add a task, please fill in the information below.
         </DialogContentText>
         <Box component="form" sx={{ display: "flex", flexDirection: "column" }}>
           <TextField
@@ -98,7 +98,7 @@ const AddDatePickerEventModal = ({
                 ampm={true}
                 minutesStep={30}
                 onChange={(newValue) =>
-                  setDatePickerEventFormData((prevState) => ({
+                  setDatePickerTaskFormData((prevState) => ({
                     ...prevState,
                     start: new Date(newValue!),
                   }))
@@ -126,7 +126,7 @@ const AddDatePickerEventModal = ({
               ampm={true}
               value={allDay ? null : end}
               onChange={(newValue) =>
-                setDatePickerEventFormData((prevState) => ({
+                setDatePickerTaskFormData((prevState) => ({
                   ...prevState,
                   end: new Date(newValue!),
                 }))
@@ -157,7 +157,7 @@ const AddDatePickerEventModal = ({
         <Button color="error" onClick={onClose}>
           Cancel
         </Button>
-        <Button disabled={isDisabled()} color="success" onClick={onAddEvent}>
+        <Button disabled={isDisabled()} color="success" onClick={onAddTask}>
           Add
         </Button>
       </DialogActions>
@@ -165,4 +165,4 @@ const AddDatePickerEventModal = ({
   );
 };
 
-export default AddDatePickerEventModal;
+export default AddDatePickerTaskModal;
