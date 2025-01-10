@@ -97,12 +97,13 @@ const AddDatePickerTaskModal = ({
                 value={start}
                 ampm={true}
                 minutesStep={30}
-                onChange={(newValue) =>
+                onAccept={(newValue) =>
                   setDatePickerTaskFormData((prevState) => ({
                     ...prevState,
                     start: new Date(newValue!),
                   }))
                 }
+                onChange={() => true}
                 slots={{
                   textField: (textFieldProps) => (
                     <TextField {...textFieldProps} />
@@ -125,12 +126,13 @@ const AddDatePickerTaskModal = ({
               minutesStep={30}
               ampm={true}
               value={allDay ? null : end}
-              onChange={(newValue) =>
+              onAccept={(newValue) =>
                 setDatePickerTaskFormData((prevState) => ({
                   ...prevState,
                   end: new Date(newValue!),
                 }))
               }
+              onChange={() => true}
               slots={{
                 textField: (textFieldProps) => (
                   <TextField {...textFieldProps} />
