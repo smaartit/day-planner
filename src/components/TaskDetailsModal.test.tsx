@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent, screen } from "@testing-library/react";
 import TaskDetailsModal from "./TaskDetailsModal"; // Path to your component
-import { ITaskDetails } from "./TaskSchedular";
+import { ITaskDetails } from "../models/taskModels";
 
 const mockHandleClose = jest.fn();
 const mockOnDeleteTask = jest.fn();
@@ -11,8 +11,8 @@ const defaultProps = {
   handleClose: mockHandleClose,
   onDeleteTask: mockOnDeleteTask,
   currentTask: {
-    _id: "1",
-    title: "Sample Task",
+    id: 1,
+    userId: 1,
     description: "This is a sample task description",
   } as ITaskDetails,
 };

@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { ITaskDetails } from "./TaskSchedular";
+import { ITaskDetails } from "../models/taskModels";
 
 interface IProps {
   event: ITaskDetails;

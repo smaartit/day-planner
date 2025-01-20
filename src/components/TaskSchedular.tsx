@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import {
   Box,
   Button,
@@ -24,6 +24,12 @@ import TaskDetails from "./TaskDetails";
 import AddTaskModal from "./AddTaskModal";
 import TaskDetailsModal from "./TaskDetailsModal";
 import AddDatePickerTaskModal from "./AddDatePickerTaskModal";
+import {
+  ITaskDetails,
+  TaskFormData,
+  DatePickerTaskFormData,
+} from "../models/taskModels";
+import { createTask, fetchTasks } from "../services/taskService";
 
 const locales = {
   "en-US": enUS,
@@ -37,28 +43,14 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-export interface ITaskDetails extends Event {
-  _id: string;
-  description: string;
-  color?: string;
-}
+export const generateId = (tasks: ITaskDetails[]) => {
+  if (!tasks || tasks.length === 0) {
+    return 1;
+  }
 
-export interface TaskFormData {
-  description: string;
-  color?: string;
-}
-
-export interface DatePickerTaskFormData {
-  description: string;
-  taskId?: string;
-  allDay: boolean;
-  start?: Date;
-  end?: Date;
-  color?: string;
-}
-
-export const generateId = () =>
-  (Math.floor(Math.random() * 10000) + 1).toString();
+  const lastId = Math.max(...tasks.map((task) => task.id));
+  return lastId + 1;
+};
 
 const initialTaskFormState: TaskFormData = {
   description: "",
@@ -67,7 +59,6 @@ const initialTaskFormState: TaskFormData = {
 
 const initialDatePickerTaskFormData: DatePickerTaskFormData = {
   description: "",
-  taskId: undefined,
   allDay: false,
   start: undefined,
   end: undefined,
@@ -76,6 +67,7 @@ const initialDatePickerTaskFormData: DatePickerTaskFormData = {
 
 const TaskSchedular = () => {
   const [openSlot, setOpenSlot] = useState(false);
+  const [error, setError] = useState("");
   const [openDatepickerModal, setOpenDatepickerModal] = useState(false);
   const [currentTask, setCurrentTask] = useState<Event | ITaskDetails | null>(
     null
@@ -90,6 +82,19 @@ const TaskSchedular = () => {
 
   const [datePickerTaskFormData, setDatePickerTaskFormData] =
     useState<DatePickerTaskFormData>(initialDatePickerTaskFormData);
+
+  useEffect(() => {
+    const loadTasks = async () => {
+      try {
+        const data = await fetchTasks(1);
+        setTasks(data);
+      } catch (err) {
+        setError("Failed to fetch tasks.");
+      }
+    };
+
+    loadTasks();
+  }, []);
 
   const handleSelectSlot = (task: Event) => {
     setOpenSlot(true);
@@ -111,23 +116,28 @@ const TaskSchedular = () => {
     setOpenDatepickerModal(false);
   };
 
-  const onAddTask = (e: MouseEvent<HTMLButtonElement>) => {
+  const onAddTask = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const data: ITaskDetails = {
       ...taskFormData,
-      _id: generateId(),
+      id: generateId(tasks),
+      userId: 1,
       start: currentTask?.start,
       end: currentTask?.end,
     };
 
-    const newTasks = [...tasks, data];
-
-    setTasks(newTasks);
-    handleClose();
+    try {
+      await createTask(data);
+      const newTasks = [...tasks, data];
+      setTasks(newTasks);
+      handleClose();
+    } catch (error) {
+      console.error("Failed to save task:", error);
+    }
   };
 
-  const onAddTaskFromDatePicker = (e: MouseEvent<HTMLButtonElement>) => {
+  const onAddTaskFromDatePicker = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const addHours = (date: Date | undefined, hours: number) => {
@@ -142,22 +152,29 @@ const TaskSchedular = () => {
 
     const data: ITaskDetails = {
       ...datePickerTaskFormData,
-      _id: generateId(),
+      id: generateId(tasks),
+      userId: 1,
       start: setMinToZero(datePickerTaskFormData.start),
       end: datePickerTaskFormData.allDay
         ? addHours(datePickerTaskFormData.start, 12)
         : setMinToZero(datePickerTaskFormData.end),
     };
 
-    const newTasks = [...tasks, data];
+    try {
+      await createTask(data);
+      const newTasks = [...tasks, data];
 
-    setTasks(newTasks);
-    setDatePickerTaskFormData(initialDatePickerTaskFormData);
+      setTasks(newTasks);
+      setDatePickerTaskFormData(initialDatePickerTaskFormData);
+      handleClose();
+    } catch (error) {
+      console.error("Failed to save task:", error);
+    }
   };
 
   const onDeleteTask = () => {
     setTasks(() =>
-      [...tasks].filter((e) => e._id !== (currentTask as ITaskDetails)._id!)
+      [...tasks].filter((e) => e.id !== (currentTask as ITaskDetails).id!)
     );
     setTaskDetailsModal(false);
   };
@@ -219,12 +236,13 @@ const TaskSchedular = () => {
             <Calendar
               localizer={localizer}
               events={tasks}
+              startAccessor="start"
+              endAccessor="end"
+              titleAccessor="description"
               onSelectEvent={handleSelectTask}
               onSelectSlot={handleSelectSlot}
               selectable
-              startAccessor="start"
               components={{ event: TaskDetails }}
-              endAccessor="end"
               defaultView="week"
               eventPropGetter={(ev) => {
                 const hasColor = tasks.find((task) => task.color === ev.color);

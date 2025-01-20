@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 
 import { HexColorPicker } from "react-colorful";
-import { TaskFormData } from "./TaskSchedular";
+import { TaskFormData } from "../models/taskModels";
 
 interface IProps {
   open: boolean;

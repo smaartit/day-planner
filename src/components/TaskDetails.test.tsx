@@ -1,13 +1,13 @@
 import "@testing-library/jest-dom/extend-expect";
 import { render } from "@testing-library/react";
 import TaskDetails from "./TaskDetails";
-import { ITaskDetails } from "./TaskSchedular";
+import { ITaskDetails } from "../models/taskModels";
 
 describe("TaskDetails", () => {
   const task: ITaskDetails = {
-    _id: "1",
-    title: "Sample Task",
+    id: 1,
     description: "This is a sample task description",
+    userId: 1,
   };
 
   it("renders the task description", () => {

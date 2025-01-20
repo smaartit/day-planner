@@ -21,7 +21,7 @@ import {
 import { HexColorPicker } from "react-colorful";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-import { DatePickerTaskFormData } from "./TaskSchedular";
+import { DatePickerTaskFormData } from "../models/taskModels";
 
 interface IProps {
   open: boolean;
