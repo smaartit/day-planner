@@ -12,7 +12,7 @@ const defaultProps = {
   onDeleteTask: mockOnDeleteTask,
   currentTask: {
     id: 1,
-    userId: 1,
+    userId: "1",
     description: "This is a sample task description",
   } as ITaskDetails,
 };
