@@ -86,7 +86,7 @@ const TaskSchedular = () => {
   useEffect(() => {
     const loadTasks = async () => {
       try {
-        const data = await fetchTasks(1);
+        const data = await fetchTasks();
         setTasks(data);
       } catch (err) {
         setError("Failed to fetch tasks.");
@@ -122,7 +122,6 @@ const TaskSchedular = () => {
     const data: ITaskDetails = {
       ...taskFormData,
       id: generateId(tasks),
-      userId: 1,
       start: currentTask?.start,
       end: currentTask?.end,
     };
@@ -153,7 +152,6 @@ const TaskSchedular = () => {
     const data: ITaskDetails = {
       ...datePickerTaskFormData,
       id: generateId(tasks),
-      userId: 1,
       start: setMinToZero(datePickerTaskFormData.start),
       end: datePickerTaskFormData.allDay
         ? addHours(datePickerTaskFormData.start, 12)

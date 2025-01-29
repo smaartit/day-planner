@@ -1,6 +1,5 @@
 export interface ITaskDetails {
   id: number;
-  userId: number;
   description: string;
   start?: Date | null;
   end?: Date | null;

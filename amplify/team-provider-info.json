@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-dayplanner-dev-a317e-authRole",
+      "UnauthRoleArn": "arn:aws:iam::760111504112:role/amplify-dayplanner-dev-a317e-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::760111504112:role/amplify-dayplanner-dev-a317e-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-dayplanner-dev-a317e-deployment",
+      "UnauthRoleName": "amplify-dayplanner-dev-a317e-unauthRole",
+      "StackName": "amplify-dayplanner-dev-a317e",
+      "StackId": "arn:aws:cloudformation:us-east-1:760111504112:stack/amplify-dayplanner-dev-a317e/5771e440-da2d-11ef-9312-121b8922b559",
+      "AmplifyAppId": "dvhws1ibfhr0s"
+    },
+    "categories": {
+      "auth": {
+        "dayplannerbd9e9ad9": {}
+      }
+    }
+  }
+}

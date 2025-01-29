@@ -7,7 +7,6 @@ describe("TaskDetails", () => {
   const task: ITaskDetails = {
     id: 1,
     description: "This is a sample task description",
-    userId: 1,
   };
 
   it("renders the task description", () => {

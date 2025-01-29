@@ -4,10 +4,14 @@ import { ITaskDetails, DatePickerTaskFormData } from "../models/taskModels";
 const API_URL =
   "https://y1ejvxdqb3.execute-api.us-east-1.amazonaws.com/api/task";
 
-export const fetchTasks = async (userId: number): Promise<ITaskDetails[]> => {
+const token = localStorage.getItem("token"); // Ret
+
+export const fetchTasks = async (): Promise<ITaskDetails[]> => {
   try {
     const response = await axios.get<ITaskDetails[]>(`${API_URL}/all`, {
-      params: { userId },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     // Transform data to calendar event format
     return response.data.map((task) => ({
@@ -23,7 +27,11 @@ export const fetchTasks = async (userId: number): Promise<ITaskDetails[]> => {
 };
 
 export const createTask = async (task: ITaskDetails): Promise<ITaskDetails> => {
-  const response = await axios.post<ITaskDetails>(API_URL, task);
+  const response = await axios.post<ITaskDetails>(API_URL, task, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 };
 
