@@ -8,6 +8,7 @@ import {
   CardHeader,
   Container,
   Divider,
+  CircularProgress,
 } from "@mui/material";
 
 import { Calendar, type Event, dateFnsLocalizer } from "react-big-calendar";
@@ -68,6 +69,7 @@ const initialDatePickerTaskFormData: DatePickerTaskFormData = {
 const TaskSchedular = () => {
   const [openSlot, setOpenSlot] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
   const [openDatepickerModal, setOpenDatepickerModal] = useState(false);
   const [currentTask, setCurrentTask] = useState<Event | ITaskDetails | null>(
     null
@@ -85,11 +87,14 @@ const TaskSchedular = () => {
 
   useEffect(() => {
     const loadTasks = async () => {
+      setLoading(true);
       try {
         const data = await fetchTasks();
         setTasks(data);
       } catch (err) {
         setError("Failed to fetch tasks.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -191,6 +196,14 @@ const TaskSchedular = () => {
       console.error("Failed to update task status:", error);
     }
   };
+  if (loading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
+        <CircularProgress color="success" size="6rem" />
+      </Box>
+    );
+  }
+
   return (
     <Box
       mt={1}
