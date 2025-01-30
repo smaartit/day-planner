@@ -38,22 +38,20 @@ const TaskDetailsModal = ({
   };
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Task Detail</DialogTitle>
+      <DialogTitle>
+        {" "}
+        <Typography
+          sx={{
+            fontSize: 15,
+            marginTop: 3,
+          }}
+          color="text.secondary"
+          gutterBottom
+        >
+          {currentTask?.description}
+        </Typography>
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          <Typography
-            component="span"
-            variant="body1"
-            sx={{
-              fontSize: 14,
-              marginTop: 3,
-            }}
-            color="text.secondary"
-            gutterBottom
-          >
-            {currentTask?.description}
-          </Typography>
-        </DialogContentText>
         <Box mt={2}>
           <FormControlLabel
             control={
@@ -62,7 +60,7 @@ const TaskDetailsModal = ({
                 onChange={handleCompletedChange}
               />
             }
-            label="Completed"
+            label="Mark Completed"
           />
         </Box>
       </DialogContent>

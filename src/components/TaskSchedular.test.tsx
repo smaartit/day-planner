@@ -10,7 +10,7 @@ describe("TaskSchedular", () => {
   test("should render calendar components correctly", () => {
     expect(screen.getByText("Calendar")).toBeInTheDocument();
     expect(
-      screen.getByText("Create Tasks and manage them easily")
+      screen.getByText("Staying on Top of My To-Do List")
     ).toBeInTheDocument();
     expect(screen.getByText("Add Task")).toBeInTheDocument();
   });

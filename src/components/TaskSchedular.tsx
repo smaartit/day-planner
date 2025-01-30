@@ -205,7 +205,7 @@ const TaskSchedular = () => {
         <Card>
           <CardHeader
             title="Calendar"
-            subheader="Create Tasks and manage them easily"
+            subheader="Staying on Top of My To-Do List"
           />
           <Divider />
           <CardContent>

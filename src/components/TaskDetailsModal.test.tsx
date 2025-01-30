@@ -25,7 +25,6 @@ describe("TaskDetailsModal", () => {
   });
 
   test("should render modal components correctly", () => {
-    expect(screen.getByText("Task Detail")).toBeInTheDocument();
     expect(
       screen.getByText("This is a sample task description")
     ).toBeInTheDocument();
