@@ -199,7 +199,7 @@ const TaskSchedular = () => {
   if (loading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
-        <CircularProgress color="success" size="6rem" />
+        <CircularProgress color="success" size="5rem" />
       </Box>
     );
   }
