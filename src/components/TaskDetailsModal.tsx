@@ -16,7 +16,7 @@ import { ITaskDetails } from "../models/taskModels";
 interface IProps {
   open: boolean;
   handleClose: Dispatch<SetStateAction<void>>;
-  onDeleteTask: (e: MouseEvent<HTMLButtonElement>) => void;
+  onDeleteTask: (taskId: number) => void;
   onToggleCompleted: (taskId: number, completed: boolean) => void;
   currentTask: ITaskDetails | null;
 }
@@ -68,7 +68,7 @@ const TaskDetailsModal = ({
         <Button color="error" onClick={onClose}>
           Cancel
         </Button>
-        <Button color="info" onClick={onDeleteTask}>
+        <Button color="info" onClick={() => onDeleteTask(currentTask?.id!)}>
           Delete Task
         </Button>
       </DialogActions>

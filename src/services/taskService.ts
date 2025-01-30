@@ -81,6 +81,20 @@ export const updateDatePickerTask = async (
   return response.data;
 };
 
-export const deleteTask = async (id: string): Promise<void> => {
-  await axios.delete(`${API_URL}/${id}`);
+export const onDeleteTask = async (id: number) => {
+  try {
+    const response = await axios.delete(`${API_URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      return id;
+    } else {
+      console.error("Failed to delete task");
+    }
+  } catch (error) {
+    console.error("Error deleting task:", error);
+  }
 };

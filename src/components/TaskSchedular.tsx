@@ -30,7 +30,12 @@ import {
   TaskFormData,
   DatePickerTaskFormData,
 } from "../models/taskModels";
-import { createTask, fetchTasks, completeTask } from "../services/taskService";
+import {
+  createTask,
+  fetchTasks,
+  completeTask,
+  onDeleteTask,
+} from "../services/taskService";
 
 const locales = {
   "en-US": enUS,
@@ -169,16 +174,22 @@ const TaskSchedular = () => {
 
       setTasks(newTasks);
       setDatePickerTaskFormData(initialDatePickerTaskFormData);
-      handleClose();
+
+      setOpenDatepickerModal(false);
     } catch (error) {
       console.error("Failed to save task:", error);
     }
   };
 
-  const onDeleteTask = () => {
-    setTasks(() =>
-      [...tasks].filter((e) => e.id !== (currentTask as ITaskDetails).id!)
-    );
+  const handleDeleteTask = async (id: number) => {
+    const deletedTaskId = await onDeleteTask(id);
+    if (deletedTaskId) {
+      setTasks((prevTasks) =>
+        prevTasks.filter((task) => task.id !== deletedTaskId)
+      );
+    } else {
+      setError("Error deleting task");
+    }
     setTaskDetailsModal(false);
   };
 
@@ -255,7 +266,7 @@ const TaskSchedular = () => {
             <TaskDetailsModal
               open={taskDetailsModal}
               handleClose={() => setTaskDetailsModal(false)}
-              onDeleteTask={onDeleteTask}
+              onDeleteTask={handleDeleteTask}
               onToggleCompleted={handleToggleCompleted}
               currentTask={currentTask as ITaskDetails}
             />
@@ -281,8 +292,7 @@ const TaskSchedular = () => {
                 };
               }}
               style={{
-                width: "100%",
-                height: "100%",
+                height: 900,
               }}
             />
           </CardContent>
