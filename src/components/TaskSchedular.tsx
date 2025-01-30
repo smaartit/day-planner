@@ -55,7 +55,7 @@ export const generateId = (tasks: ITaskDetails[]) => {
 
 const initialTaskFormState: TaskFormData = {
   description: "",
-  color: "#b64fc8",
+  color: "#6495ED",
 };
 
 const initialDatePickerTaskFormData: DatePickerTaskFormData = {
@@ -63,7 +63,7 @@ const initialDatePickerTaskFormData: DatePickerTaskFormData = {
   allDay: false,
   start: undefined,
   end: undefined,
-  color: "#b64fc8",
+  color: "#6495ED",
 };
 
 const TaskSchedular = () => {
@@ -274,14 +274,15 @@ const TaskSchedular = () => {
                 const hasColor = tasks.find((task) => task.color === ev.color);
                 return {
                   style: {
-                    backgroundColor: hasColor ? hasColor.color : "#b64fc8",
-                    borderColor: hasColor ? hasColor.color : "#b64fc8",
+                    backgroundColor: hasColor ? hasColor.color : "#6495ED",
+                    borderColor: hasColor ? hasColor.color : "#6495ED",
                     textDecoration: ev.completed ? "line-through" : "none",
                   },
                 };
               }}
               style={{
-                height: 900,
+                width: "100%",
+                height: "100%",
               }}
             />
           </CardContent>
