@@ -29,7 +29,7 @@ import {
   TaskFormData,
   DatePickerTaskFormData,
 } from "../models/taskModels";
-import { createTask, fetchTasks } from "../services/taskService";
+import { createTask, fetchTasks, completeTask } from "../services/taskService";
 
 const locales = {
   "en-US": enUS,
@@ -177,6 +177,20 @@ const TaskSchedular = () => {
     setTaskDetailsModal(false);
   };
 
+  const handleToggleCompleted = async (id: number, completed: boolean) => {
+    try {
+      const updatedTask = await completeTask(id, completed);
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === id ? { ...task, completed: updatedTask.completed } : task
+        )
+      );
+
+      setTaskDetailsModal(false);
+    } catch (error) {
+      console.error("Failed to update task status:", error);
+    }
+  };
   return (
     <Box
       mt={1}
@@ -229,6 +243,7 @@ const TaskSchedular = () => {
               open={taskDetailsModal}
               handleClose={() => setTaskDetailsModal(false)}
               onDeleteTask={onDeleteTask}
+              onToggleCompleted={handleToggleCompleted}
               currentTask={currentTask as ITaskDetails}
             />
             <Calendar
@@ -248,6 +263,7 @@ const TaskSchedular = () => {
                   style: {
                     backgroundColor: hasColor ? hasColor.color : "#b64fc8",
                     borderColor: hasColor ? hasColor.color : "#b64fc8",
+                    textDecoration: ev.completed ? "line-through" : "none",
                   },
                 };
               }}

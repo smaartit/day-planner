@@ -19,6 +19,7 @@ function App() {
     try {
       const { accessToken } = (await fetchAuthSession()).tokens ?? {};
       if (accessToken) {
+        console.log("Access Token:", accessToken.toString());
         localStorage.setItem("token", accessToken.toString());
       } else {
         console.log("Tokens are undefined");

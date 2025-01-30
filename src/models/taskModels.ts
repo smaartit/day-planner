@@ -5,11 +5,13 @@ export interface ITaskDetails {
   end?: Date | null;
   color?: string;
   allDay?: boolean;
+  completed?: boolean;
 }
 
 export interface TaskFormData {
   description: string;
   color?: string;
+  completed?: boolean;
 }
 
 export interface DatePickerTaskFormData {
@@ -18,4 +20,5 @@ export interface DatePickerTaskFormData {
   start?: Date;
   end?: Date;
   color?: string;
+  completed?: boolean;
 }

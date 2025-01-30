@@ -8,6 +8,8 @@ import {
   Button,
   Box,
   Typography,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import { ITaskDetails } from "../models/taskModels";
 
@@ -15,6 +17,7 @@ interface IProps {
   open: boolean;
   handleClose: Dispatch<SetStateAction<void>>;
   onDeleteTask: (e: MouseEvent<HTMLButtonElement>) => void;
+  onToggleCompleted: (taskId: number, completed: boolean) => void;
   currentTask: ITaskDetails | null;
 }
 
@@ -22,12 +25,17 @@ const TaskDetailsModal = ({
   open,
   handleClose,
   onDeleteTask,
+  onToggleCompleted,
   currentTask,
 }: IProps) => {
   const onClose = () => {
     handleClose();
   };
-
+  const handleCompletedChange = () => {
+    if (currentTask) {
+      onToggleCompleted(currentTask.id, !currentTask.completed);
+    }
+  };
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Task Detail</DialogTitle>
@@ -36,14 +44,27 @@ const TaskDetailsModal = ({
           <Typography
             component="span"
             variant="body1"
-            sx={{ fontSize: 14, marginTop: 3 }}
+            sx={{
+              fontSize: 14,
+              marginTop: 3,
+            }}
             color="text.secondary"
             gutterBottom
           >
             {currentTask?.description}
           </Typography>
         </DialogContentText>
-        <Box component="form"></Box>
+        <Box mt={2}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={!!currentTask?.completed} // Default to false if undefined
+                onChange={handleCompletedChange}
+              />
+            }
+            label="Completed"
+          />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button color="error" onClick={onClose}>

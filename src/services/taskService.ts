@@ -41,9 +41,33 @@ export const updateTask = async (
 ): Promise<ITaskDetails> => {
   const response = await axios.put<ITaskDetails>(
     `${API_URL}/${id}`,
-    updatedTask
+    updatedTask,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   return response.data;
+};
+
+export const completeTask = async (id: number, completed: boolean) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/${id}/complete`,
+      { completed },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error completing tasks:", error);
+  }
 };
 
 export const updateDatePickerTask = async (

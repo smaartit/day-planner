@@ -5,11 +5,13 @@ import { ITaskDetails } from "../models/taskModels";
 
 const mockHandleClose = jest.fn();
 const mockOnDeleteTask = jest.fn();
+const mockToggleComplete = jest.fn();
 
 const defaultProps = {
   open: true,
   handleClose: mockHandleClose,
   onDeleteTask: mockOnDeleteTask,
+  onToggleCompleted: mockToggleComplete,
   currentTask: {
     id: 1,
     userId: "1",
