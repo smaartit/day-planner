@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import EventSchedular from "./components/TaskSchedular";
 import "@aws-amplify/ui-react/styles.css";
+import { Button } from "@mui/material";
 import "./App.css";
 import { fetchAuthSession } from "@aws-amplify/auth";
 
@@ -19,7 +20,6 @@ function App() {
     try {
       const { accessToken } = (await fetchAuthSession()).tokens ?? {};
       if (accessToken) {
-        console.log("Access Token:", accessToken.toString());
         localStorage.setItem("token", accessToken.toString());
       } else {
         console.log("Tokens are undefined");
@@ -33,7 +33,14 @@ function App() {
     <>
       <div className="App">
         <header className="App-header">
-          <button onClick={() => signOut()}>Log Out</button>
+          <Button
+            onClick={() => signOut()}
+            variant="outlined"
+            color="primary"
+            size="small"
+          >
+            Log Out
+          </Button>
         </header>
       </div>
       <EventSchedular />

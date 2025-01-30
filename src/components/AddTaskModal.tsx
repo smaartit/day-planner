@@ -35,7 +35,7 @@ const AddTaskModal = ({
   setTaskFormData,
   onAddTask,
 }: IProps) => {
-  const [color, setColor] = useState("#b32aa9");
+  const [color, setColor] = useState("#6495ED");
   const { description } = taskFormData;
 
   useEffect(() => {

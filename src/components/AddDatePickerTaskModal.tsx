@@ -38,7 +38,7 @@ const AddDatePickerTaskModal = ({
   setDatePickerTaskFormData,
   onAddTask,
 }: IProps) => {
-  const [color, setColor] = useState("#b32aa9");
+  const [color, setColor] = useState("#6495ED");
   const { description, start, end, allDay } = datePickerTaskFormData;
 
   const onClose = () => {

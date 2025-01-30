@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom/extend-expect";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import TaskSchedular from "./TaskSchedular";
 
 describe("TaskSchedular", () => {
@@ -7,7 +7,15 @@ describe("TaskSchedular", () => {
     render(<TaskSchedular />);
   });
 
-  test("should render calendar components correctly", () => {
+  test("should render calendar components correctly", async () => {
+    // Wait for the loader to disappear
+    await waitFor(
+      () => {
+        expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
+
     expect(screen.getByText("Calendar")).toBeInTheDocument();
     expect(
       screen.getByText("Staying on Top of My To-Do List")
@@ -15,7 +23,15 @@ describe("TaskSchedular", () => {
     expect(screen.getByText("Add Task")).toBeInTheDocument();
   });
 
-  test("should open AddTaskModal when Add task button is clicked", () => {
+  test("should open AddTaskModal when Add task button is clicked", async () => {
+    // Wait for the loader to disappear
+    await waitFor(
+      () => {
+        expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
+
     fireEvent.click(screen.getByText("Add task", { exact: false }));
     expect(
       screen.getByText("To add a task, please fill in the information below.")
@@ -54,7 +70,14 @@ describe("TaskSchedular", () => {
   //     expect(screen.queryByText("Task to Delete")).not.toBeInTheDocument();
   //   });
 
-  test("should close AddTaskModal when handleClose is called", () => {
+  test("should close AddTaskModal when handleClose is called", async () => {
+    // Wait for the loader to disappear
+    await waitFor(
+      () => {
+        expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
     fireEvent.click(screen.getByText("Add Task"));
     fireEvent.click(screen.getByText("Cancel"));
     expect(
@@ -62,7 +85,14 @@ describe("TaskSchedular", () => {
     ).not.toBeInTheDocument();
   });
 
-  test("should close AddDatePickerTaskModal when handleDatePickerClose is called", () => {
+  test("should close AddDatePickerTaskModal when handleDatePickerClose is called", async () => {
+    // Wait for the loader to disappear
+    await waitFor(
+      () => {
+        expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
     fireEvent.click(screen.getByText("Add Task"));
     fireEvent.click(screen.getByText("Cancel"));
     expect(

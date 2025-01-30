@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "@mui/material";
 import { useAuthenticator, Authenticator } from "@aws-amplify/ui-react";
 
 const AuthPage: React.FC = () => {
@@ -9,16 +10,14 @@ const AuthPage: React.FC = () => {
     <>
       {user ? (
         <div>
-          <button
+          <Button
             onClick={() => signOut()}
-            style={{
-              padding: "0.5rem 1rem",
-              fontSize: "1rem",
-              cursor: "pointer",
-            }}
+            variant="contained"
+            color="primary"
+            size="small"
           >
             Log Out
-          </button>
+          </Button>
         </div>
       ) : (
         <Authenticator />
