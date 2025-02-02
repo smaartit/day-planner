@@ -76,11 +76,11 @@ const TaskSchedular = () => {
   const [openSlot, setOpenSlot] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [dynamicHeight, setDynamicHeight] = useState(1020);
   const [openDatepickerModal, setOpenDatepickerModal] = useState(false);
   const [currentTask, setCurrentTask] = useState<Event | ITaskDetails | null>(
     null
   );
-
   const [taskDetailsModal, setTaskDetailsModal] = useState(false);
 
   const [tasks, setTasks] = useState<ITaskDetails[]>([]);
@@ -90,6 +90,18 @@ const TaskSchedular = () => {
 
   const [datePickerTaskFormData, setDatePickerTaskFormData] =
     useState<DatePickerTaskFormData>(initialDatePickerTaskFormData);
+
+  useEffect(() => {
+    const updateHeight = () => {
+      const viewportWidth = window.innerWidth;
+      setDynamicHeight(viewportWidth + 220);
+    };
+
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -284,6 +296,7 @@ const TaskSchedular = () => {
               titleAccessor="description"
               timeslots={4}
               step={15}
+              min={new Date(0, 0, 0, 7, 0, 0)} // Set start time to 7:00 AM
               onSelectEvent={handleSelectTask}
               onSelectSlot={handleSelectSlot}
               selectable
@@ -300,7 +313,7 @@ const TaskSchedular = () => {
                 };
               }}
               style={{
-                height: 900,
+                height: dynamicHeight,
               }}
             />
           </CardContent>
