@@ -5,6 +5,7 @@ import "@aws-amplify/ui-react/styles.css";
 import { Button } from "@mui/material";
 import "./App.css";
 import { fetchAuthSession } from "@aws-amplify/auth";
+import "aws-amplify/auth/enable-oauth-listener";
 
 function App() {
   const { signOut } = useAuthenticator();

@@ -9,6 +9,7 @@ import {
   Container,
   Divider,
   CircularProgress,
+  Alert,
 } from "@mui/material";
 
 import { Calendar, type Event, dateFnsLocalizer } from "react-big-calendar";
@@ -247,6 +248,11 @@ const TaskSchedular = () => {
                   Add Task
                 </Button>
               </ButtonGroup>
+              {error && (
+                <Alert severity="warning">
+                  Something went wrong, please refresh this page!
+                </Alert>
+              )}
             </Box>
             <Divider style={{ margin: 10 }} />
             <AddTaskModal
