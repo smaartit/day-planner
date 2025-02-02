@@ -276,6 +276,8 @@ const TaskSchedular = () => {
               startAccessor="start"
               endAccessor="end"
               titleAccessor="description"
+              timeslots={4}
+              step={15}
               onSelectEvent={handleSelectTask}
               onSelectSlot={handleSelectSlot}
               selectable
